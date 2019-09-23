@@ -15,10 +15,11 @@
   ],
   "main": "./dist/extension",
   "contributes": {
-    "commands": [
+    "keybindings": [
       {
-        "command": "extension.helloWebpack",
-        "title": "Hello Webpack"
+        "command": "vsVim.goToNormalMode",
+        "key": "escape",
+        "when": "editorTextFocus && !vsVim.inNormalMode"
       }
     ]
   },
