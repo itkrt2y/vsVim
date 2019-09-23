@@ -1,0 +1,42 @@
+{
+  "name": "vscode-extension-base",
+  "displayName": "vscode-extension-base",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "vscode-samples",
+  "engines": {
+    "vscode": "^1.37.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.helloWebpack",
+        "title": "Hello Webpack"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "webpack -p",
+    "webpack": "webpack",
+    "test-compile": "tsc -p ./",
+    "lint": "tslint -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "@types/vscode": "^1.38.0",
+    "prettier": "^1.18.2",
+    "ts-loader": "^6.1.2",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.3",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
+  }
+}
