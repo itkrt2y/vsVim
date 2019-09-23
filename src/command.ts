@@ -23,6 +23,12 @@ export function type({ text }: { text: string }) {
         case "l":
           vscode.commands.executeCommand("cursorMove", { to: "right" });
           return;
+        case "w":
+          vscode.commands.executeCommand("cursorWordStartRight");
+          return;
+        case "b":
+          vscode.commands.executeCommand("cursorWordStartLeft");
+          return;
       }
   }
 }
