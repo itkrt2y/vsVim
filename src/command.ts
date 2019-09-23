@@ -23,6 +23,19 @@ export function type({ text }: { text: string }) {
         case "l":
           vscode.commands.executeCommand("cursorMove", { to: "right" });
           return;
+        case "H":
+          vscode.commands.executeCommand("cursorMove", { to: "viewPortTop" });
+          return;
+        case "M":
+          vscode.commands.executeCommand("cursorMove", {
+            to: "viewPortCenter"
+          });
+          return;
+        case "L":
+          vscode.commands.executeCommand("cursorMove", {
+            to: "viewPortBottom"
+          });
+          return;
         case "w":
           vscode.commands.executeCommand("cursorWordStartRight");
           return;
