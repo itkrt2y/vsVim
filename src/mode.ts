@@ -11,13 +11,13 @@ setCursorStyle(currentMode);
 export function goToNormal() {
   currentMode = Mode.NORMAL;
   setCursorStyle(Mode.NORMAL);
-  vscode.commands.executeCommand("setContet", "vsVim.inNormalMode", true);
+  vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", true);
 }
 
 export function goToInsert() {
   currentMode = Mode.INSERT;
   setCursorStyle(Mode.INSERT);
-  vscode.commands.executeCommand("setContet", "vsVim.inNormalMode", false);
+  vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", false);
 }
 
 function setCursorStyle(mode: Mode): vscode.TextEditorCursorStyle | void {
