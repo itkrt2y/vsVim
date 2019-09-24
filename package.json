@@ -21,6 +21,21 @@
         "command": "vsVim.goToNormalMode",
         "key": "escape",
         "when": "editorTextFocus && !vsVim.inNormalMode"
+      },
+      {
+        "command": "undo",
+        "key": "u",
+        "when": "editorTextFocus && vsVim.inNormalMode"
+      },
+      {
+        "command": "undo",
+        "key": "shift+u",
+        "when": "editorTextFocus && vsVim.inNormalMode"
+      },
+      {
+        "command": "redo",
+        "key": "ctrl+r",
+        "when": "editorTextFocus"
       }
     ]
   },
