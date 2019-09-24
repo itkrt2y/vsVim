@@ -1,9 +1,10 @@
 {
-  "name": "vscode-extension-base",
-  "displayName": "vscode-extension-base",
-  "description": "",
+  "name": "vsvim",
+  "displayName": "vsVim",
+  "description": "Vim for vscode",
   "version": "0.0.1",
-  "publisher": "vscode-samples",
+  "publisher": "itkrt2y",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.37.0"
   },
