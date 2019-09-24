@@ -184,39 +184,39 @@ function zero() {
 }
 
 function one() {
-  appendNumberToCurrentInput("1");
+  currentInput.appendNonZeroNumber("1");
 }
 
 function two() {
-  appendNumberToCurrentInput("2");
+  currentInput.appendNonZeroNumber("2");
 }
 
 function three() {
-  appendNumberToCurrentInput("3");
+  currentInput.appendNonZeroNumber("3");
 }
 
 function four() {
-  appendNumberToCurrentInput("4");
+  currentInput.appendNonZeroNumber("4");
 }
 
 function five() {
-  appendNumberToCurrentInput("5");
+  currentInput.appendNonZeroNumber("5");
 }
 
 function six() {
-  appendNumberToCurrentInput("6");
+  currentInput.appendNonZeroNumber("6");
 }
 
 function seven() {
-  appendNumberToCurrentInput("7");
+  currentInput.appendNonZeroNumber("7");
 }
 
 function eight() {
-  appendNumberToCurrentInput("8");
+  currentInput.appendNonZeroNumber("8");
 }
 
 function nine() {
-  appendNumberToCurrentInput("9");
+  currentInput.appendNonZeroNumber("9");
 }
 
 function goToFirstChar() {
@@ -239,13 +239,4 @@ function firstCharIndex(document: vscode.TextDocument, line: number): number {
   }
 
   return 0;
-}
-
-function appendNumberToCurrentInput(
-  text: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-): void {
-  const num = parseInt(currentInput.text, 10);
-  if (currentInput.text === "" || num) {
-    currentInput.append(text);
-  }
 }

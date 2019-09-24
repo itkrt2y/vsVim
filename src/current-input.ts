@@ -7,6 +7,13 @@ export function append(input: string): void {
   vscode.commands.executeCommand("setContext", "vsVim.hasInput", true);
 }
 
+export function appendNonZeroNumber(str: string): void {
+  // current input is blank or starts with number
+  if (text === "" || parseInt(str, 10)) {
+    append(str);
+  }
+}
+
 export function clear(): void {
   text = "";
   vscode.commands.executeCommand("setContext", "vsVim.hasInput", false);
