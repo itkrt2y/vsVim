@@ -13,6 +13,8 @@ export function type({ text }: { text: string }) {
         return;
       }
 
+      const position = editor.selection.active;
+
       switch (text) {
         case "a":
           vscode.commands.executeCommand("cursorMove", { to: "right" });
@@ -26,12 +28,11 @@ export function type({ text }: { text: string }) {
           goToInsert();
           return;
         case "I":
-          const position = editor.selection.active;
-          const newPosition = position.with(
+          const newPositionI = position.with(
             position.line,
             firstCharIndex(editor.document, position.line)
           );
-          editor.selection = new vscode.Selection(newPosition, newPosition);
+          editor.selection = new vscode.Selection(newPositionI, newPositionI);
           goToInsert();
           return;
         case "o":
@@ -40,6 +41,19 @@ export function type({ text }: { text: string }) {
           return;
         case "O":
           vscode.commands.executeCommand("editor.action.insertLineBefore");
+          goToInsert();
+          return;
+        case "s":
+          vscode.commands.executeCommand("deleteRight");
+          goToInsert();
+          return;
+        case "S":
+          const newPositionS = position.with(
+            position.line,
+            firstCharIndex(editor.document, position.line)
+          );
+          editor.selection = new vscode.Selection(newPositionS, newPositionS);
+          vscode.commands.executeCommand("deleteAllRight");
           goToInsert();
           return;
         case "h":
@@ -72,6 +86,9 @@ export function type({ text }: { text: string }) {
           return;
         case "b":
           vscode.commands.executeCommand("cursorWordStartLeft");
+          return;
+        case "x":
+          vscode.commands.executeCommand("deleteRight");
           return;
       }
   }
