@@ -40,6 +40,10 @@ function clearCurrentInput() {
   currentInputNum = 1;
 }
 
+export function hasInput(): boolean {
+  return currentInput.length > 0;
+}
+
 function a() {
   vscode.commands.executeCommand("cursorMove", { to: "right" });
   goToInsertMode();

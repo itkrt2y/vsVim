@@ -23,6 +23,11 @@
         "when": "editorTextFocus && !vsVim.inNormalMode"
       },
       {
+        "command": "vsVim.clearInput",
+        "key": "escape",
+        "when": "editorTextFocus && vsVim.hasInput"
+      },
+      {
         "command": "undo",
         "key": "u",
         "when": "editorTextFocus && vsVim.inNormalMode"
