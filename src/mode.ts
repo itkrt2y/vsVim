@@ -8,13 +8,13 @@ export enum Mode {
 export let currentMode: Mode = Mode.NORMAL;
 setCursorStyle(currentMode);
 
-export function goToNormal() {
+export function goToNormalMode() {
   currentMode = Mode.NORMAL;
   setCursorStyle(Mode.NORMAL);
   vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", true);
 }
 
-export function goToInsert() {
+export function goToInsertMode() {
   currentMode = Mode.INSERT;
   setCursorStyle(Mode.INSERT);
   vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", false);

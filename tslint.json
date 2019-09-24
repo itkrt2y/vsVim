@@ -2,8 +2,10 @@
   "defaultSeverity": "error",
   "extends": ["tslint:latest", "tslint-config-prettier"],
   "rules": {
+    "curly": [false],
     "interface-name": [false],
     "interface-over-type-literal": [false],
-    "no-implicit-dependencies": [true, ["vscode"]]
+    "no-implicit-dependencies": [true, ["vscode"]],
+    "object-literal-sort-keys": [false]
   }
 }
