@@ -34,6 +34,14 @@ export function type({ text }: { text: string }) {
           editor.selection = new vscode.Selection(newPosition, newPosition);
           goToInsert();
           return;
+        case "o":
+          vscode.commands.executeCommand("editor.action.insertLineAfter");
+          goToInsert();
+          return;
+        case "O":
+          vscode.commands.executeCommand("editor.action.insertLineBefore");
+          goToInsert();
+          return;
         case "h":
           vscode.commands.executeCommand("cursorMove", { to: "left" });
           return;
