@@ -84,8 +84,21 @@ function s() {
 }
 
 function S() {
-  goToFirstChar();
-  vscode.commands.executeCommand("deleteAllRight");
+  const editor = vscode.window.activeTextEditor!;
+  const document = editor.document;
+  const startLine = editor.selection.active.line;
+  const startPos = new vscode.Position(
+    startLine,
+    firstCharIndex(document, startLine)
+  );
+  const endLine = startLine + currentInputNum - 1;
+  const endPos = new vscode.Position(
+    endLine,
+    document.lineAt(endLine).text.length
+  );
+  const range = new vscode.Range(startPos, endPos);
+
+  editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
   clearCurrentInput();
 }
