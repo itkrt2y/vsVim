@@ -5,6 +5,7 @@ export const mapping: { [key: string]: () => void } = {
   a,
   A,
   b,
+  d,
   h,
   H,
   i,
@@ -165,6 +166,23 @@ function b() {
 function x() {
   vscode.commands.executeCommand("deleteRight");
   clearCurrentInput();
+}
+
+function d() {
+  if (/^\d*d$/.test(currentInput)) {
+    const editor = vscode.window.activeTextEditor!;
+    const startLine = editor.selection.active.line;
+    const endLine = startLine + currentInputNum - 1;
+    const range = new vscode.Range(
+      new vscode.Position(startLine, 0),
+      new vscode.Position(endLine, editor.document.lineAt(endLine).text.length)
+    );
+
+    editor.edit(edit => edit.replace(range, ""));
+    clearCurrentInput();
+  } else {
+    currentInput += "d";
+  }
 }
 
 function zero() {
