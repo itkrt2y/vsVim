@@ -189,8 +189,8 @@ function zero() {
   // append "0" to currentInput if currentInput already have number
   if (parseInt(currentInput, 10)) {
     currentInput += "0";
+    updateCurrentInputNum();
   }
-  updateCurrentInputNum();
 }
 
 function one() {
