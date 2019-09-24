@@ -83,11 +83,10 @@ function s() {
     currentInputNum,
     editor.document.lineAt(line).text.length - position.character
   );
-  const endPosition = new vscode.Position(
-    line,
-    position.character + deleteCharCount
+  const range = new vscode.Range(
+    position,
+    new vscode.Position(line, position.character + deleteCharCount)
   );
-  const range = new vscode.Range(position, endPosition);
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
@@ -98,16 +97,11 @@ function S() {
   const editor = vscode.window.activeTextEditor!;
   const document = editor.document;
   const startLine = editor.selection.active.line;
-  const startPos = new vscode.Position(
-    startLine,
-    firstCharIndex(document, startLine)
-  );
   const endLine = startLine + currentInputNum - 1;
-  const endPos = new vscode.Position(
-    endLine,
-    document.lineAt(endLine).text.length
+  const range = new vscode.Range(
+    new vscode.Position(startLine, firstCharIndex(document, startLine)),
+    new vscode.Position(endLine, document.lineAt(endLine).text.length)
   );
-  const range = new vscode.Range(startPos, endPos);
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
