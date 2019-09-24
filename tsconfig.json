@@ -11,10 +11,5 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "esModuleInterop": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "./node_modules/vscode/vscode.d.ts",
-    "./node_modules/vscode/lib/*"
-  ]
+  }
 }
