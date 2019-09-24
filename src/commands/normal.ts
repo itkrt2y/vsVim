@@ -75,10 +75,20 @@ function O() {
 }
 
 function s() {
-  // TODO: Stop deleting at the end of the line
-  for (let idx = 0; idx < currentInputNum; idx++) {
-    vscode.commands.executeCommand("deleteRight");
-  }
+  const editor = vscode.window.activeTextEditor!;
+  const position = editor.selection.active;
+  const line = position.line;
+  const deleteCharCount = Math.min(
+    currentInputNum,
+    editor.document.lineAt(line).text.length - position.character
+  );
+  const endPosition = new vscode.Position(
+    line,
+    position.character + deleteCharCount
+  );
+  const range = new vscode.Range(position, endPosition);
+
+  editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
   clearCurrentInput();
 }
