@@ -101,7 +101,10 @@ function S() {
   const editor = vscode.window.activeTextEditor!;
   const document = editor.document;
   const startLine = editor.selection.active.line;
-  const endLine = startLine + currentInputNum - 1;
+  const endLine = Math.min(
+    document.lineCount - 1,
+    startLine + currentInputNum - 1
+  );
   const range = new vscode.Range(
     new vscode.Position(startLine, firstCharIndex(document, startLine)),
     new vscode.Position(endLine, document.lineAt(endLine).text.length)
