@@ -6,7 +6,6 @@ export enum Mode {
 }
 
 export let currentMode: Mode = Mode.NORMAL;
-setCursorStyle(currentMode);
 
 export function goToNormalMode() {
   currentMode = Mode.NORMAL;
