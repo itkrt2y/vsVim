@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { type } from "./commands";
-import { hasInput } from "./commands/normal";
+import * as currentInput from "./current-input";
 import { goToNormalMode } from "./mode";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("vsVim.goToNormalMode", goToNormalMode)
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand("vsVim.hasInput", hasInput)
+    vscode.commands.registerCommand("vsVim.clearInput", currentInput.clear)
   );
 
   goToNormalMode();

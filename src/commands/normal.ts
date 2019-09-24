@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as currentInput from "../current-input";
 import { goToInsertMode } from "../mode";
 
 export const mapping: { [key: string]: () => void } = {
@@ -33,50 +34,39 @@ export const mapping: { [key: string]: () => void } = {
   "9": nine
 };
 
-let currentInput = "";
-let currentInputNum = 1;
-function clearCurrentInput() {
-  currentInput = "";
-  currentInputNum = 1;
-}
-
-export function hasInput(): boolean {
-  return currentInput.length > 0;
-}
-
 function a() {
   vscode.commands.executeCommand("cursorMove", { to: "right" });
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function A() {
   vscode.commands.executeCommand("cursorEnd");
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function i() {
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function I() {
   goToFirstChar();
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function o() {
   vscode.commands.executeCommand("editor.action.insertLineAfter");
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function O() {
   vscode.commands.executeCommand("editor.action.insertLineBefore");
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function s() {
@@ -84,7 +74,7 @@ function s() {
   const position = editor.selection.active;
   const line = position.line;
   const deleteCharCount = Math.min(
-    currentInputNum,
+    currentInput.number(),
     editor.document.lineAt(line).text.length - position.character
   );
   const range = new vscode.Range(
@@ -94,7 +84,7 @@ function s() {
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function S() {
@@ -103,7 +93,7 @@ function S() {
   const startLine = editor.selection.active.line;
   const endLine = Math.min(
     document.lineCount - 1,
-    startLine + currentInputNum - 1
+    startLine + currentInput.number() - 1
   );
   const range = new vscode.Range(
     new vscode.Position(startLine, firstCharIndex(document, startLine)),
@@ -112,85 +102,84 @@ function S() {
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function h() {
   vscode.commands.executeCommand("cursorMove", { to: "left" });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function j() {
   vscode.commands.executeCommand("cursorMove", { to: "down" });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function k() {
   vscode.commands.executeCommand("cursorMove", { to: "up" });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function l() {
   vscode.commands.executeCommand("cursorMove", { to: "right" });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function H() {
   vscode.commands.executeCommand("cursorMove", { to: "viewPortTop" });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function M() {
   vscode.commands.executeCommand("cursorMove", {
     to: "viewPortCenter"
   });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function L() {
   vscode.commands.executeCommand("cursorMove", {
     to: "viewPortBottom"
   });
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function w() {
   vscode.commands.executeCommand("cursorWordStartRight");
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function b() {
   vscode.commands.executeCommand("cursorWordStartLeft");
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function x() {
   vscode.commands.executeCommand("deleteRight");
-  clearCurrentInput();
+  currentInput.clear();
 }
 
 function d() {
-  if (/^\d*d$/.test(currentInput)) {
+  if (/^\d*d$/.test(currentInput.text)) {
     const editor = vscode.window.activeTextEditor!;
     const startLine = editor.selection.active.line;
-    const endLine = startLine + currentInputNum - 1;
+    const endLine = startLine + currentInput.number() - 1;
     const range = new vscode.Range(
       new vscode.Position(startLine, 0),
       new vscode.Position(endLine, editor.document.lineAt(endLine).text.length)
     );
 
     editor.edit(edit => edit.replace(range, ""));
-    clearCurrentInput();
+    currentInput.clear();
   } else {
-    currentInput += "d";
+    currentInput.append("d");
   }
 }
 
 function zero() {
   // append "0" to currentInput if currentInput already have number
-  if (parseInt(currentInput, 10)) {
-    currentInput += "0";
-    updateCurrentInputNum();
+  if (parseInt(currentInput.text, 10)) {
+    currentInput.append("0");
   }
 }
 
@@ -255,13 +244,8 @@ function firstCharIndex(document: vscode.TextDocument, line: number): number {
 function appendNumberToCurrentInput(
   text: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ): void {
-  const num = parseInt(currentInput, 10);
-  if (currentInput === "" || num) {
-    currentInput += text;
+  const num = parseInt(currentInput.text, 10);
+  if (currentInput.text === "" || num) {
+    currentInput.append(text);
   }
-  updateCurrentInputNum();
-}
-
-function updateCurrentInputNum(): void {
-  currentInputNum = parseInt(currentInput, 10);
 }
