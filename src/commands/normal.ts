@@ -57,7 +57,12 @@ export function ensureCursorPosition(): void {
 }
 
 function a() {
-  vscode.commands.executeCommand("cursorMove", { to: "right" });
+  const editor = vscode.window.activeTextEditor!;
+  const isBlankLine =
+    editor.document.lineAt(editor.selection.active.line).text.length === 0;
+  if (!isBlankLine) {
+    vscode.commands.executeCommand("cursorMove", { to: "right" });
+  }
   goToInsertMode();
   currentInput.clear();
 }
