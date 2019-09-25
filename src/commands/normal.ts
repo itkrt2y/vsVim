@@ -269,7 +269,7 @@ function dollar() {
   const line = editor.selection.active.line + num;
   const position = new vscode.Position(
     line,
-    editor.document.lineAt(line).text.length
+    editor.document.lineAt(line).text.length - 1
   );
   editor.selection = new vscode.Selection(position, position);
   currentInput.clear();
