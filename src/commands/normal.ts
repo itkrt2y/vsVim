@@ -106,22 +106,30 @@ function S() {
 }
 
 function h() {
-  vscode.commands.executeCommand("cursorMove", { to: "left" });
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorMove", { to: "left" });
+  }
   currentInput.clear();
 }
 
 function j() {
-  vscode.commands.executeCommand("cursorMove", { to: "down" });
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorMove", { to: "down" });
+  }
   currentInput.clear();
 }
 
 function k() {
-  vscode.commands.executeCommand("cursorMove", { to: "up" });
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorMove", { to: "up" });
+  }
   currentInput.clear();
 }
 
 function l() {
-  vscode.commands.executeCommand("cursorMove", { to: "right" });
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorMove", { to: "right" });
+  }
   currentInput.clear();
 }
 
