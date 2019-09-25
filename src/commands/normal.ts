@@ -39,6 +39,23 @@ export const mapping: { [key: string]: () => void } = {
   "9": nine
 };
 
+export function ensureCursorPosition(): void {
+  const editor = vscode.window.activeTextEditor!;
+  const { selection, document } = editor;
+  const position = selection.active;
+  const { line } = position;
+  const { length } = document.lineAt(line).text;
+  if (length === 0) {
+    return;
+  }
+
+  const maxCharacter = length - 1;
+  if (position.character > maxCharacter) {
+    const pos = new vscode.Position(line, maxCharacter);
+    editor.selection = new vscode.Selection(pos, pos);
+  }
+}
+
 function a() {
   vscode.commands.executeCommand("cursorMove", { to: "right" });
   goToInsertMode();
@@ -126,7 +143,9 @@ function h() {
 function j() {
   const count = currentInput.number() || 1;
   for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "down" });
+    vscode.commands.executeCommand("cursorMove", { to: "down" }).then(() => {
+      ensureCursorPosition();
+    });
   }
   currentInput.clear();
 }
@@ -134,7 +153,9 @@ function j() {
 function k() {
   const count = currentInput.number() || 1;
   for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "up" });
+    vscode.commands.executeCommand("cursorMove", { to: "up" }).then(() => {
+      ensureCursorPosition();
+    });
   }
   currentInput.clear();
 }
@@ -173,18 +194,36 @@ function L() {
   currentInput.clear();
 }
 
-function w() {
+async function w() {
+  const editor = vscode.window.activeTextEditor!;
   const count = currentInput.number() || 1;
   for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorWordStartRight");
+    await vscode.commands.executeCommand("cursorWordStartRight").then(() => {
+      // skip line break
+      const position = editor.selection.active;
+      const { length } = editor.document.lineAt(position.line).text;
+      if (position.character === length) {
+        vscode.commands.executeCommand("cursorWordStartRight");
+      }
+    });
   }
   currentInput.clear();
 }
 
-function b() {
+async function b() {
+  const editor = vscode.window.activeTextEditor!;
   const count = currentInput.number() || 1;
   for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorWordStartLeft");
+    await vscode.commands.executeCommand("cursorWordStartLeft").then(() => {
+      const { character, line } = editor.selection.active;
+      if (character !== 0) {
+        return;
+      }
+      const firstChar = editor.document.lineAt(line).text[0];
+      if (firstChar === " " || firstChar === "\t") {
+        vscode.commands.executeCommand("cursorWordStartLeft");
+      }
+    });
   }
   currentInput.clear();
 }

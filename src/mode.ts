@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { ensureCursorPosition } from "./commands/normal";
 import * as statusBar from "./status-bar";
 
 export enum Mode {
@@ -13,6 +14,7 @@ export function goToNormalMode() {
   setCursorStyle(Mode.NORMAL);
   statusBar.showNormal();
   vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", true);
+  ensureCursorPosition();
 }
 
 export function goToInsertMode() {
