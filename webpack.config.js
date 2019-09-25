@@ -8,7 +8,8 @@ module.exports = (_, argv) => {
     mode: isProd ? "production" : "development",
     output: {
       filename: "extension.js",
-      libraryTarget: "commonjs2"
+      libraryTarget: "commonjs2",
+      devtoolModuleFilenameTemplate: "../[resource-path]"
     },
     devtool: "source-map",
     externals: { vscode: "commonjs vscode" },
