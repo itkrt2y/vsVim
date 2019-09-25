@@ -153,12 +153,16 @@ function L() {
 }
 
 function w() {
-  vscode.commands.executeCommand("cursorWordStartRight");
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorWordStartRight");
+  }
   currentInput.clear();
 }
 
 function b() {
-  vscode.commands.executeCommand("cursorWordStartLeft");
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("cursorWordStartLeft");
+  }
   currentInput.clear();
 }
 
