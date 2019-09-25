@@ -167,7 +167,9 @@ function b() {
 }
 
 function x() {
-  vscode.commands.executeCommand("deleteRight");
+  for (let idx = 0; idx < currentInput.number(); idx++) {
+    vscode.commands.executeCommand("deleteRight");
+  }
   currentInput.clear();
 }
 
