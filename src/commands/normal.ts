@@ -76,7 +76,7 @@ function s() {
   const position = editor.selection.active;
   const line = position.line;
   const deleteCharCount = Math.min(
-    currentInput.number(),
+    currentInput.number() || 1,
     editor.document.lineAt(line).text.length - position.character
   );
   const range = new vscode.Range(
@@ -92,11 +92,9 @@ function s() {
 function S() {
   const editor = vscode.window.activeTextEditor!;
   const document = editor.document;
+  const num = (currentInput.number() || 1) - 1;
   const startLine = editor.selection.active.line;
-  const endLine = Math.min(
-    document.lineCount - 1,
-    startLine + currentInput.number() - 1
-  );
+  const endLine = Math.min(document.lineCount - 1, startLine + num);
   const range = new vscode.Range(
     new vscode.Position(startLine, firstCharIndex(document, startLine)),
     new vscode.Position(endLine, document.lineAt(endLine).text.length)
@@ -108,28 +106,32 @@ function S() {
 }
 
 function h() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "left" });
   }
   currentInput.clear();
 }
 
 function j() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "down" });
   }
   currentInput.clear();
 }
 
 function k() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "up" });
   }
   currentInput.clear();
 }
 
 function l() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "right" });
   }
   currentInput.clear();
@@ -155,21 +157,24 @@ function L() {
 }
 
 function w() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorWordStartRight");
   }
   currentInput.clear();
 }
 
 function b() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorWordStartLeft");
   }
   currentInput.clear();
 }
 
 function x() {
-  for (let idx = 0; idx < currentInput.number(); idx++) {
+  const count = currentInput.number() || 1;
+  for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("deleteRight");
   }
   currentInput.clear();
@@ -179,7 +184,8 @@ function d() {
   if (currentInput.testWith(/^\d*d$/)) {
     const editor = vscode.window.activeTextEditor!;
     const startLine = editor.selection.active.line;
-    const endLine = startLine + currentInput.number() - 1;
+    const num = (currentInput.number() || 1) - 1;
+    const endLine = startLine + num;
     const range = new vscode.Range(
       new vscode.Position(startLine, 0),
       new vscode.Position(endLine, editor.document.lineAt(endLine).text.length)
@@ -199,7 +205,8 @@ function caret() {
 
 function dollar() {
   const editor = vscode.window.activeTextEditor!;
-  const line = editor.selection.active.line + currentInput.number() - 1;
+  const num = (currentInput.number() || 1) - 1;
+  const line = editor.selection.active.line + num;
   const position = new vscode.Position(
     line,
     editor.document.lineAt(line).text.length

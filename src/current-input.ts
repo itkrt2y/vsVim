@@ -19,8 +19,8 @@ export function clear(): void {
   vscode.commands.executeCommand("setContext", "vsVim.hasInput", false);
 }
 
-export function number(): number {
-  return parseInt(text, 10) || 1;
+export function number(): number | null {
+  return parseInt(text, 10) || null;
 }
 
 export function isBlank(): boolean {
