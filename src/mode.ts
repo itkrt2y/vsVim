@@ -14,6 +14,7 @@ export function goToNormalMode() {
   setCursorStyle(Mode.NORMAL);
   statusBar.showNormal();
   vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", true);
+  selectPreviousChar();
   ensureCursorPosition();
 }
 
@@ -40,5 +41,14 @@ function getCursorStyle(mode: Mode): vscode.TextEditorCursorStyle {
       return style.Block;
     case Mode.INSERT:
       return style.Line;
+  }
+}
+
+function selectPreviousChar() {
+  const editor = vscode.window.activeTextEditor!;
+  const position = editor.selection.active;
+  if (position.character !== 0) {
+    const newPosition = editor.selection.active.translate(0, -1);
+    editor.selection = new vscode.Selection(newPosition, newPosition);
   }
 }
