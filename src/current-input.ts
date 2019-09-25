@@ -22,3 +22,7 @@ export function clear(): void {
 export function number(): number {
   return parseInt(text, 10) || 1;
 }
+
+export function isBlank(): boolean {
+  return text.length === 0;
+}

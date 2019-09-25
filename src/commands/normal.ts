@@ -22,6 +22,8 @@ export const mapping: { [key: string]: () => void } = {
   S,
   w,
   x,
+  "^": caret,
+  $: dollar,
   "0": zero,
   "1": one,
   "2": two,
@@ -190,8 +192,31 @@ function d() {
   }
 }
 
+function caret() {
+  goToFirstChar();
+  currentInput.clear();
+}
+
+function dollar() {
+  const editor = vscode.window.activeTextEditor!;
+  const line = editor.selection.active.line + currentInput.number() - 1;
+  const position = new vscode.Position(
+    line,
+    editor.document.lineAt(line).text.length
+  );
+  editor.selection = new vscode.Selection(position, position);
+  currentInput.clear();
+}
+
 function zero() {
-  // append "0" to currentInput if currentInput already have number
+  if (currentInput.isBlank()) {
+    const editor = vscode.window.activeTextEditor!;
+    const position = new vscode.Position(editor.selection.active.line, 0);
+    editor.selection = new vscode.Selection(position, position);
+    return;
+  }
+
+  // append "0" to currentInput if currentInput has number
   if (parseInt(currentInput.text, 10)) {
     currentInput.append("0");
   }
