@@ -99,7 +99,10 @@ function S() {
   const startLine = editor.selection.active.line;
   const endLine = Math.min(document.lineCount - 1, startLine + num);
   const range = new vscode.Range(
-    new vscode.Position(startLine, firstCharIndex(document, startLine)),
+    new vscode.Position(
+      startLine,
+      editor.document.lineAt(startLine).firstNonWhitespaceCharacterIndex
+    ),
     new vscode.Position(endLine, document.lineAt(endLine).text.length)
   );
 
@@ -226,7 +229,7 @@ function g() {
     );
     const position = new vscode.Position(
       line,
-      firstCharIndex(editor.document, line)
+      editor.document.lineAt(line).firstNonWhitespaceCharacterIndex
     );
     editor.selection = new vscode.Selection(position, position);
     currentInput.clear();
@@ -241,7 +244,7 @@ function G() {
   );
   const position = new vscode.Position(
     line,
-    firstCharIndex(editor.document, line)
+    editor.document.lineAt(line).firstNonWhitespaceCharacterIndex
   );
   editor.selection = new vscode.Selection(position, position);
   currentInput.clear();
@@ -329,21 +332,9 @@ function goToFirstChar() {
   const position = editor.selection.active;
   const newPosition = position.with(
     position.line,
-    firstCharIndex(editor.document, position.line)
+    editor.document.lineAt(position.line).firstNonWhitespaceCharacterIndex
   );
   editor.selection = new vscode.Selection(newPosition, newPosition);
-}
-
-function firstCharIndex(document: vscode.TextDocument, line: number): number {
-  const { text } = document.lineAt(line);
-
-  for (const [index, char] of [...text].entries()) {
-    if (char !== " " && char !== "\t") {
-      return index;
-    }
-  }
-
-  return 0;
 }
 
 function lastCharIndex(document: vscode.TextDocument, line: number): number {
