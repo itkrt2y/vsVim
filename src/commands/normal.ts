@@ -26,6 +26,7 @@ export const mapping: { [key: string]: () => void } = {
   x,
   "^": caret,
   $: dollar,
+  _: underscore,
   "0": zero,
   "1": one,
   "2": two,
@@ -235,6 +236,17 @@ function G() {
   currentInput.clear();
 }
 
+function underscore() {
+  const editor = vscode.window.activeTextEditor!;
+  const line = editor.selection.active.line;
+  const position = new vscode.Position(
+    line,
+    lastCharIndex(editor.document, line)
+  );
+  editor.selection = new vscode.Selection(position, position);
+  currentInput.clear();
+}
+
 function caret() {
   goToFirstChar();
   currentInput.clear();
@@ -315,6 +327,27 @@ function firstCharIndex(document: vscode.TextDocument, line: number): number {
   const { text } = document.lineAt(line);
 
   for (const [index, char] of [...text].entries()) {
+    if (char !== " " && char !== "\t") {
+      return index;
+    }
+  }
+
+  return 0;
+}
+
+function lastCharIndex(document: vscode.TextDocument, line: number): number {
+  const { text } = document.lineAt(line);
+  const chars = [...text];
+
+  let index = chars.length;
+  while (true) {
+    const char = chars.pop();
+    if (!char) {
+      break;
+    }
+
+    index--;
+
     if (char !== " " && char !== "\t") {
       return index;
     }
