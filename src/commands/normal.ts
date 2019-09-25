@@ -216,8 +216,7 @@ function zero() {
     return;
   }
 
-  // append "0" to currentInput if currentInput has number
-  if (parseInt(currentInput.text, 10)) {
+  if (/^\d+$/.test(currentInput.text)) {
     currentInput.append("0");
   }
 }
