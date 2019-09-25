@@ -7,6 +7,8 @@ export const mapping: { [key: string]: () => void } = {
   A,
   b,
   d,
+  g,
+  G,
   h,
   H,
   i,
@@ -196,6 +198,41 @@ function d() {
   } else {
     currentInput.append("d");
   }
+}
+
+function g() {
+  if (currentInput.testWith(/^\d*$/)) {
+    currentInput.append("g");
+    return;
+  }
+
+  if (currentInput.text.endsWith("g")) {
+    const editor = vscode.window.activeTextEditor!;
+    const line = Math.min(
+      (currentInput.number() || 1) - 1,
+      editor.document.lineCount - 1
+    );
+    const position = new vscode.Position(
+      line,
+      firstCharIndex(editor.document, line)
+    );
+    editor.selection = new vscode.Selection(position, position);
+    currentInput.clear();
+  }
+}
+
+function G() {
+  const editor = vscode.window.activeTextEditor!;
+  const line = Math.min(
+    (currentInput.number() || editor.document.lineCount) - 1,
+    editor.document.lineCount - 1
+  );
+  const position = new vscode.Position(
+    line,
+    firstCharIndex(editor.document, line)
+  );
+  editor.selection = new vscode.Selection(position, position);
+  currentInput.clear();
 }
 
 function caret() {
