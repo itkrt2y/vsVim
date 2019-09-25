@@ -26,3 +26,7 @@ export function number(): number {
 export function isBlank(): boolean {
   return text.length === 0;
 }
+
+export function testWith(regexp: RegExp): boolean {
+  return regexp.test(text);
+}

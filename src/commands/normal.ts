@@ -176,7 +176,7 @@ function x() {
 }
 
 function d() {
-  if (/^\d*d$/.test(currentInput.text)) {
+  if (currentInput.testWith(/^\d*d$/)) {
     const editor = vscode.window.activeTextEditor!;
     const startLine = editor.selection.active.line;
     const endLine = startLine + currentInput.number() - 1;
@@ -216,7 +216,7 @@ function zero() {
     return;
   }
 
-  if (/^\d+$/.test(currentInput.text)) {
+  if (currentInput.testWith(/^\d+$/)) {
     currentInput.append("0");
   }
 }
