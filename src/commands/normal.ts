@@ -109,7 +109,11 @@ function S() {
 }
 
 function h() {
-  const count = currentInput.number() || 1;
+  const editor = vscode.window.activeTextEditor!;
+  const count = Math.min(
+    currentInput.number() || 1,
+    editor.selection.active.character
+  );
   for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "left" });
   }
@@ -133,7 +137,14 @@ function k() {
 }
 
 function l() {
-  const count = currentInput.number() || 1;
+  const editor = vscode.window.activeTextEditor!;
+  const line = editor.selection.active.line;
+  const max =
+    editor.document.lineAt(line).text.length -
+    editor.selection.active.character -
+    1;
+  const count = Math.min(currentInput.number() || 1, max);
+
   for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("cursorMove", { to: "right" });
   }
