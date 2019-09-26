@@ -255,15 +255,27 @@ function x() {
 function d() {
   if (currentInput.testWith(/^\d*d$/)) {
     const editor = vscode.window.activeTextEditor!;
-    const startLine = editor.selection.active.line;
-    const num = (currentInput.number() || 1) - 1;
-    const endLine = startLine + num;
-    const range = new vscode.Range(
-      new vscode.Position(startLine, 0),
-      new vscode.Position(endLine, editor.document.lineAt(endLine).text.length)
-    );
+    const repeatCount = currentInput.number() || 1;
 
-    editor.edit(edit => edit.replace(range, ""));
+    let fromLine = editor.selection.active.line;
+    let fromChar = 0;
+    let toLine = fromLine + repeatCount;
+    let toChar = 0;
+
+    const maxLine = editor.document.lineCount - 1;
+    if (toLine >= maxLine) {
+      toLine = maxLine;
+      toChar = editor.document.lineAt(toLine).text.length;
+      if (fromLine > 0) {
+        fromLine = fromLine - 1;
+        fromChar = editor.document.lineAt(fromLine).text.length;
+      }
+    }
+
+    if (fromLine !== toLine || fromChar !== toChar) {
+      const range = new vscode.Range(fromLine, fromChar, toLine, toChar);
+      editor.edit(edit => edit.delete(range));
+    }
     lastCommand.setOperator(currentInput.text + "d");
     currentInput.clear();
   } else {
