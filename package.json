@@ -44,22 +44,22 @@
       },
       {
         "command": "vim.cursorLeft",
-        "key": "LeftArrow",
+        "key": "left",
         "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
       },
       {
         "command": "vim.cursorRight",
-        "key": "RightArrow",
+        "key": "right",
         "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
       },
       {
         "command": "vim.cursorUp",
-        "key": "UpArrow",
+        "key": "up",
         "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
       },
       {
         "command": "vim.cursorDown",
-        "key": "DownArrow",
+        "key": "down",
         "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
       },
       {

@@ -8,6 +8,7 @@ export function type({ text }: { text: string }): void {
     vscode.commands.executeCommand("default:type", { text });
     if (lastCommand.clearInsertTextOnNextInsert) {
       lastCommand.clearInsertText();
+      lastCommand.setClearTextOnNextInsert(false);
     }
     lastCommand.appendToInsertText(text);
     return;

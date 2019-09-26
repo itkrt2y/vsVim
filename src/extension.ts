@@ -27,15 +27,19 @@ const registerCommands = {
   "vsVim.clearInput": currentInput.clear,
   "vim.cursorLeft": () => {
     setClearTextOnNextInsert(true);
+    vscode.commands.executeCommand("cursorLeft");
   },
   "vim.cursorRight": () => {
     setClearTextOnNextInsert(true);
+    vscode.commands.executeCommand("cursorRight");
   },
   "vim.cursorUp": () => {
     setClearTextOnNextInsert(true);
+    vscode.commands.executeCommand("cursorUp");
   },
   "vim.cursorDown": () => {
     setClearTextOnNextInsert(true);
+    vscode.commands.executeCommand("cursorDown");
   },
   "vim.PageUp": () => {
     setClearTextOnNextInsert(true);
