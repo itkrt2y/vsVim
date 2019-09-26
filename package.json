@@ -20,7 +20,7 @@
       {
         "command": "vsVim.goToNormalMode",
         "key": "escape",
-        "when": "editorTextFocus && !vsVim.inNormalMode"
+        "when": "editorTextFocus && vsVim.currentMode != 'NORMAL'"
       },
       {
         "command": "vsVim.clearInput",
@@ -30,17 +30,47 @@
       {
         "command": "undo",
         "key": "u",
-        "when": "editorTextFocus && vsVim.inNormalMode"
+        "when": "editorTextFocus && vsVim.currentMode == 'NORMAL'"
       },
       {
         "command": "undo",
         "key": "shift+u",
-        "when": "editorTextFocus && vsVim.inNormalMode"
+        "when": "editorTextFocus && vsVim.currentMode == 'NORMAL'"
       },
       {
         "command": "redo",
         "key": "ctrl+r",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "vim.cursorLeft",
+        "key": "LeftArrow",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+      },
+      {
+        "command": "vim.cursorRight",
+        "key": "RightArrow",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+      },
+      {
+        "command": "vim.cursorUp",
+        "key": "UpArrow",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+      },
+      {
+        "command": "vim.cursorDown",
+        "key": "DownArrow",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+      },
+      {
+        "command": "vim.PageUp",
+        "key": "PageUp",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+      },
+      {
+        "command": "vim.PageDown",
+        "key": "PageDown",
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
       }
     ]
   },

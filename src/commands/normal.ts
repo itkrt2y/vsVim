@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as currentInput from "../current-input";
-import { goToInsertMode } from "../mode";
+import * as lastCommand from "../last-command";
+import { currentMode, goToInsertMode, goToNormalMode, Mode } from "../mode";
 
 export const mapping: { [key: string]: () => void } = {
   a,
@@ -27,6 +28,7 @@ export const mapping: { [key: string]: () => void } = {
   "^": caret,
   $: dollar,
   _: underscore,
+  ".": period,
   "0": zero,
   "1": one,
   "2": two,
@@ -64,35 +66,41 @@ function a() {
     vscode.commands.executeCommand("cursorMove", { to: "right" });
   }
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "a");
   currentInput.clear();
 }
 
 function A() {
   vscode.commands.executeCommand("cursorEnd");
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "A");
   currentInput.clear();
 }
 
 function i() {
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "i");
   currentInput.clear();
 }
 
 function I() {
   goToFirstChar();
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "I");
   currentInput.clear();
 }
 
 function o() {
   vscode.commands.executeCommand("editor.action.insertLineAfter");
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "o");
   currentInput.clear();
 }
 
 function O() {
   vscode.commands.executeCommand("editor.action.insertLineBefore");
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "O");
   currentInput.clear();
 }
 
@@ -111,6 +119,7 @@ function s() {
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "s");
   currentInput.clear();
 }
 
@@ -130,6 +139,7 @@ function S() {
 
   editor.edit(edit => edit.replace(range, ""));
   goToInsertMode();
+  lastCommand.setOperator(currentInput.text + "S");
   currentInput.clear();
 }
 
@@ -238,6 +248,7 @@ function x() {
   for (let idx = 0; idx < count; idx++) {
     vscode.commands.executeCommand("deleteRight");
   }
+  lastCommand.setOperator(currentInput.text + "x");
   currentInput.clear();
 }
 
@@ -253,6 +264,7 @@ function d() {
     );
 
     editor.edit(edit => edit.replace(range, ""));
+    lastCommand.setOperator(currentInput.text + "d");
     currentInput.clear();
   } else {
     currentInput.append("d");
@@ -332,6 +344,16 @@ function zero() {
 
   if (currentInput.testWith(/^\d+$/)) {
     currentInput.append("0");
+  }
+}
+
+function period() {
+  [...lastCommand.get()].forEach(char => {
+    vscode.commands.executeCommand("type", { text: char });
+  });
+
+  if (currentMode !== Mode.NORMAL) {
+    goToNormalMode();
   }
 }
 

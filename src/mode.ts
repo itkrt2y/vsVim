@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { ensureCursorPosition } from "./commands/normal";
+import { setClearTextOnNextInsert } from "./last-command";
 import * as statusBar from "./status-bar";
 
 export enum Mode {
@@ -13,16 +14,17 @@ export function goToNormalMode() {
   currentMode = Mode.NORMAL;
   setCursorStyle(Mode.NORMAL);
   statusBar.showNormal();
-  vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", true);
   selectPreviousChar();
   ensureCursorPosition();
+  vscode.commands.executeCommand("setContext", "vsVim.currentMode", "NORMAL");
+  setClearTextOnNextInsert(false);
 }
 
 export function goToInsertMode() {
   currentMode = Mode.INSERT;
   setCursorStyle(Mode.INSERT);
   statusBar.showInsert();
-  vscode.commands.executeCommand("setContext", "vsVim.inNormalMode", false);
+  vscode.commands.executeCommand("setContext", "vsVim.currentMode", "INSERT");
 }
 
 function setCursorStyle(mode: Mode): vscode.TextEditorCursorStyle | void {
