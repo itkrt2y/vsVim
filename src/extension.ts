@@ -6,13 +6,10 @@ import { setClearTextOnNextInsert } from "./last-command";
 import { goToNormalMode } from "./mode";
 
 export function activate(context: vscode.ExtensionContext) {
-  context.subscriptions.push(vscode.commands.registerCommand("type", type));
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vsVim.goToNormalMode", goToNormalMode)
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vsVim.clearInput", currentInput.clear)
-  );
+  for (const [command, fn] of Object.entries(registerCommands)) {
+    context.subscriptions.push(vscode.commands.registerCommand(command, fn));
+  }
+
   context.subscriptions.push(
     vscode.window.onDidChangeTextEditorSelection(listener => {
       if (listener.kind === vscode.TextEditorSelectionChangeKind.Mouse) {
@@ -20,46 +17,36 @@ export function activate(context: vscode.ExtensionContext) {
       }
     })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorLeft", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorRight", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorUp", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorDown", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.PageUp", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.PageDown", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorHome", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("vim.cursorEnd", () => {
-      setClearTextOnNextInsert(true);
-    })
-  );
 
   goToNormalMode();
 }
+
+const registerCommands = {
+  type,
+  "vsVim.goToNormalMode": goToNormalMode,
+  "vsVim.clearInput": currentInput.clear,
+  "vim.cursorLeft": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.cursorRight": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.cursorUp": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.cursorDown": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.PageUp": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.PageDown": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.cursorHome": () => {
+    setClearTextOnNextInsert(true);
+  },
+  "vim.cursorEnd": () => {
+    setClearTextOnNextInsert(true);
+  }
+};
