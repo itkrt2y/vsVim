@@ -81,7 +81,7 @@
     "lint": "tslint -p ./"
   },
   "devDependencies": {
-    "@types/node": "^12.7.6",
+    "@types/node": "^12.7.8",
     "@types/vscode": "^1.38.0",
     "prettier": "^1.18.2",
     "ts-loader": "^6.1.2",
