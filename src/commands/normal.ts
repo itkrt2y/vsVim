@@ -42,6 +42,10 @@ export const mapping: { [key: string]: () => void } = {
 };
 
 export function ensureCursorPosition(): void {
+  if (currentMode !== Mode.NORMAL) {
+    return;
+  }
+
   const editor = vscode.window.activeTextEditor!;
   const { selection, document } = editor;
   const position = selection.active;
