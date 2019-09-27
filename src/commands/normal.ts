@@ -110,19 +110,27 @@ function O() {
 
 function s() {
   const editor = vscode.window.activeTextEditor!;
-  const position = editor.selection.active;
-  const line = position.line;
-  const deleteCharCount = Math.min(
-    currentInput.number() || 1,
-    editor.document.lineAt(line).text.length - position.character
-  );
-  const range = new vscode.Range(
-    position,
-    new vscode.Position(line, position.character + deleteCharCount)
-  );
+  let { selection } = editor;
 
-  editor.edit(edit => edit.replace(range, ""));
-  goToInsertMode();
+  if (selection.anchor.isEqual(selection.active)) {
+    const { line, character } = selection.active;
+    const deleteCharCount = Math.min(
+      currentInput.number() || 1,
+      editor.document.lineAt(line).text.length - character
+    );
+
+    selection = new vscode.Selection(
+      line,
+      character,
+      line,
+      character + deleteCharCount
+    );
+  }
+
+  editor.selection = selection;
+  vscode.commands
+    .executeCommand("editor.action.clipboardCutAction")
+    .then(goToInsertMode);
   lastCommand.setOperator(currentInput.text + "s");
   currentInput.clear();
 }
