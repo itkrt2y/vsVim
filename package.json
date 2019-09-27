@@ -45,32 +45,32 @@
       {
         "command": "vim.cursorLeft",
         "key": "left",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       },
       {
         "command": "vim.cursorRight",
         "key": "right",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       },
       {
         "command": "vim.cursorUp",
         "key": "up",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       },
       {
         "command": "vim.cursorDown",
         "key": "down",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       },
       {
         "command": "vim.PageUp",
         "key": "PageUp",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       },
       {
         "command": "vim.PageDown",
         "key": "PageDown",
-        "when": "editorTextFocus && vsVim.currentMode == 'INSERT'"
+        "when": "editorTextFocus && vsVim.currentMode == 'INSERT' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
       }
     ]
   },
