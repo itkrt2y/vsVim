@@ -11,6 +11,10 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   context.subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor(goToNormalMode)
+  );
+
+  context.subscriptions.push(
     vscode.window.onDidChangeTextEditorSelection(listener => {
       if (listener.kind === vscode.TextEditorSelectionChangeKind.Mouse) {
         ensureCursorPosition();
