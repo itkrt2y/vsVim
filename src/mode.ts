@@ -12,28 +12,33 @@ export let currentMode: Mode = Mode.NORMAL;
 
 export function goToNormalMode() {
   currentMode = Mode.NORMAL;
-  setCursorStyle(Mode.NORMAL);
   statusBar.showNormal();
+  vscode.commands.executeCommand("setContext", "vsVim.currentMode", "NORMAL");
+
+  if (!vscode.window.activeTextEditor) {
+    return;
+  }
   selectPreviousChar();
   ensureCursorPosition();
-  vscode.commands.executeCommand("setContext", "vsVim.currentMode", "NORMAL");
+  setCursorStyle(Mode.NORMAL);
   setClearTextOnNextInsert(false);
 }
 
 export function goToInsertMode() {
   currentMode = Mode.INSERT;
-  setCursorStyle(Mode.INSERT);
   statusBar.showInsert();
   vscode.commands.executeCommand("setContext", "vsVim.currentMode", "INSERT");
+
+  if (!vscode.window.activeTextEditor) {
+    return;
+  }
+  setCursorStyle(Mode.INSERT);
 }
 
 function setCursorStyle(mode: Mode): vscode.TextEditorCursorStyle | void {
-  const editor = vscode.window.activeTextEditor;
-  if (!editor) {
-    return;
-  }
-
-  editor.options = { cursorStyle: getCursorStyle(mode) };
+  vscode.window.activeTextEditor!.options = {
+    cursorStyle: getCursorStyle(mode)
+  };
 }
 
 function getCursorStyle(mode: Mode): vscode.TextEditorCursorStyle {
