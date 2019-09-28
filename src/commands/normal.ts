@@ -2,32 +2,33 @@ import * as vscode from "vscode";
 import * as currentInput from "../current-input";
 import * as lastCommand from "../last-command";
 import { currentMode, goToInsertMode, goToNormalMode, Mode } from "../mode";
+import * as motion from "../motions";
 
 export const mapping: { [key: string]: () => void } = {
   a,
   A,
-  b,
+  b: motion.b,
   d,
   g,
-  G,
-  h,
-  H,
+  G: motion.G,
+  h: motion.h,
+  H: motion.H,
   i,
   I,
-  j,
-  k,
-  l,
-  L,
-  M,
+  j: motion.j,
+  k: motion.k,
+  l: motion.l,
+  L: motion.L,
+  M: motion.M,
   o,
   O,
   s,
   S,
-  w,
+  w: motion.w,
   x,
-  "^": caret,
-  $: dollar,
-  _: underscore,
+  "^": motion.caret,
+  $: motion.dollar,
+  _: motion.underscore,
   ".": period,
   "0": zero,
   "1": one,
@@ -154,107 +155,6 @@ function S() {
   lastCommand.setOperator(currentInput.text + "S");
   currentInput.clear();
 }
-
-function h() {
-  const editor = vscode.window.activeTextEditor!;
-  const count = Math.min(
-    currentInput.number() || 1,
-    editor.selection.active.character
-  );
-  for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "left" });
-  }
-  currentInput.clear();
-}
-
-function j() {
-  const count = currentInput.number() || 1;
-  for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "down" }).then(() => {
-      ensureCursorPosition();
-    });
-  }
-  currentInput.clear();
-}
-
-function k() {
-  const count = currentInput.number() || 1;
-  for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "up" }).then(() => {
-      ensureCursorPosition();
-    });
-  }
-  currentInput.clear();
-}
-
-function l() {
-  const editor = vscode.window.activeTextEditor!;
-  const line = editor.selection.active.line;
-  const max =
-    editor.document.lineAt(line).text.length -
-    editor.selection.active.character -
-    1;
-  const count = Math.min(currentInput.number() || 1, max);
-
-  for (let idx = 0; idx < count; idx++) {
-    vscode.commands.executeCommand("cursorMove", { to: "right" });
-  }
-  currentInput.clear();
-}
-
-function H() {
-  vscode.commands.executeCommand("cursorMove", { to: "viewPortTop" });
-  currentInput.clear();
-}
-
-function M() {
-  vscode.commands.executeCommand("cursorMove", {
-    to: "viewPortCenter"
-  });
-  currentInput.clear();
-}
-
-function L() {
-  vscode.commands.executeCommand("cursorMove", {
-    to: "viewPortBottom"
-  });
-  currentInput.clear();
-}
-
-async function w() {
-  const editor = vscode.window.activeTextEditor!;
-  const count = currentInput.number() || 1;
-  for (let idx = 0; idx < count; idx++) {
-    await vscode.commands.executeCommand("cursorWordStartRight").then(() => {
-      // skip line break
-      const position = editor.selection.active;
-      const { length } = editor.document.lineAt(position.line).text;
-      if (position.character === length) {
-        vscode.commands.executeCommand("cursorWordStartRight");
-      }
-    });
-  }
-  currentInput.clear();
-}
-
-async function b() {
-  const editor = vscode.window.activeTextEditor!;
-  const count = currentInput.number() || 1;
-  for (let idx = 0; idx < count; idx++) {
-    await vscode.commands.executeCommand("cursorWordStartLeft").then(() => {
-      const { character, line } = editor.selection.active;
-      if (character !== 0) {
-        return;
-      }
-      const firstChar = editor.document.lineAt(line).text[0];
-      if (firstChar === " " || firstChar === "\t") {
-        vscode.commands.executeCommand("cursorWordStartLeft");
-      }
-    });
-  }
-  currentInput.clear();
-}
-
 function x() {
   const count = currentInput.number() || 1;
   for (let idx = 0; idx < count; idx++) {
@@ -314,48 +214,6 @@ function g() {
     editor.selection = new vscode.Selection(position, position);
     currentInput.clear();
   }
-}
-
-function G() {
-  const editor = vscode.window.activeTextEditor!;
-  const line = Math.min(
-    (currentInput.number() || editor.document.lineCount) - 1,
-    editor.document.lineCount - 1
-  );
-  const position = new vscode.Position(
-    line,
-    editor.document.lineAt(line).firstNonWhitespaceCharacterIndex
-  );
-  editor.selection = new vscode.Selection(position, position);
-  currentInput.clear();
-}
-
-function underscore() {
-  const editor = vscode.window.activeTextEditor!;
-  const line = editor.selection.active.line;
-  const position = new vscode.Position(
-    line,
-    lastCharIndex(editor.document, line)
-  );
-  editor.selection = new vscode.Selection(position, position);
-  currentInput.clear();
-}
-
-function caret() {
-  goToFirstChar();
-  currentInput.clear();
-}
-
-function dollar() {
-  const editor = vscode.window.activeTextEditor!;
-  const num = (currentInput.number() || 1) - 1;
-  const line = editor.selection.active.line + num;
-  const position = new vscode.Position(
-    line,
-    editor.document.lineAt(line).text.length - 1
-  );
-  editor.selection = new vscode.Selection(position, position);
-  currentInput.clear();
 }
 
 function zero() {
@@ -425,25 +283,4 @@ function goToFirstChar() {
     editor.document.lineAt(position.line).firstNonWhitespaceCharacterIndex
   );
   editor.selection = new vscode.Selection(newPosition, newPosition);
-}
-
-function lastCharIndex(document: vscode.TextDocument, line: number): number {
-  const { text } = document.lineAt(line);
-  const chars = [...text];
-
-  let index = chars.length;
-  while (true) {
-    const char = chars.pop();
-    if (!char) {
-      break;
-    }
-
-    index--;
-
-    if (char !== " " && char !== "\t") {
-      return index;
-    }
-  }
-
-  return 0;
 }
