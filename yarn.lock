@@ -2846,10 +2846,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.7.0-dev.20190926:
-  version "3.7.0-dev.20190926"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.0-dev.20190926.tgz#2e90fa4e56fad0fddb87e4d837cd33c7e4a55e7c"
-  integrity sha512-uOQij3UHJnzxY/8Kv1kdmvWTjghgbCD0kBOgVGbY7Rni8ER51O8iPMmI4YpanZmaiZbPK6zUaS60b04/2C91bA==
+typescript@^3.7.0-dev.20190928:
+  version "3.7.0-dev.20190928"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.0-dev.20190928.tgz#7a9716a79452a8d817075ee85af31deb1a8b2c14"
+  integrity sha512-iKQ8w1hAQusfjRkkiFIhyzRiY8ifdvQVmcnenGmefXzTDvrHyyHq31nr+qY5JaMieAiR7+yd1Hg6kAlNCMYWsw==
 
 union-value@^1.0.0:
   version "1.0.1"
